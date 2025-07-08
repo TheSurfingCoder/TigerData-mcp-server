@@ -12,27 +12,6 @@ A TimescaleDB Cloud account and credentials are also required.
 
 ---
 
-## Transport Layer
-
-This MCP server communicates using **stdio** (standard input/output).
-
-- Requests should be sent as JSON objects to the server's stdin.
-- Responses will be printed to stdout.
-- This is compatible with MCP clients that launch the server as a subprocess and communicate via stdio.
-
-**Example raw request (sent to stdin):**
-```json
-{"name":"timescale_query","arguments":{"query":"SELECT 1"}}
-```
-
-**Example command-line usage:**
-```sh
-echo '{"name":"timescale_query","arguments":{"query":"SELECT 1"}}' | node dist/index.js
-```
-
----
-
-
 ## Installation
 
 1. Install dependencies:
