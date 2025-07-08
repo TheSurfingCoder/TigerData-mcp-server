@@ -2,13 +2,36 @@
 
 A Model Context Protocol (MCP) server for TimescaleDB Cloud that provides secure access to PostgreSQL databases.
 
-## Features
+## Prerequisites
 
-- Secure SSL/TLS connections to TigerData Cloud
-- SQL query execution
-- Table listing and schema inspection
-- Environment-based configuration
-- TypeScript implementation
+- **Node.js** (v16 or newer recommended)
+- **npm** (comes with Node.js)
+- **TypeScript** (installed as a dev dependency, but you may want it globally for development: `npm install -g typescript`)
+
+A TimescaleDB Cloud account and credentials are also required.
+
+---
+
+## Transport Layer
+
+This MCP server communicates using **stdio** (standard input/output).
+
+- Requests should be sent as JSON objects to the server's stdin.
+- Responses will be printed to stdout.
+- This is compatible with MCP clients that launch the server as a subprocess and communicate via stdio.
+
+**Example raw request (sent to stdin):**
+```json
+{"name":"timescale_query","arguments":{"query":"SELECT 1"}}
+```
+
+**Example command-line usage:**
+```sh
+echo '{"name":"timescale_query","arguments":{"query":"SELECT 1"}}' | node dist/index.js
+```
+
+---
+
 
 ## Installation
 
@@ -39,6 +62,8 @@ npm run build
 ```
 
 ## Usage
+
+> **Note:** If you are using this server as part of an MCP client (see the "MCP Configuration" section below), you do **not** need to run `npm run dev` or `npm start` manually—the MCP client will launch the server automatically using the specified command. The scripts below are for local development and testing only.
 
 ### Development
 ```bash
@@ -149,24 +174,5 @@ TimescaleMCPServer/
 └── README.md           # This file
 ```
 
-### Scripts
-- `npm run build`: Compile TypeScript to JavaScript
-- `npm run start`: Run the compiled server
-- `npm run dev`: Run in development mode with hot reload
-- `npm run clean`: Remove compiled files
 
-## Troubleshooting
 
-### Connection Issues
-1. Verify your TigerData credentials in `.env`
-2. Ensure SSL is properly configured
-3. Check network connectivity to your TigerData host
-
-### Build Issues
-1. Make sure TypeScript is installed: `npm install -g typescript`
-2. Clear the dist folder: `npm run clean && npm run build`
-
-### Runtime Issues
-1. Check that all environment variables are set
-2. Verify the database is accessible
-3. Check the server logs for detailed error messages 
